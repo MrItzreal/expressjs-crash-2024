@@ -3,18 +3,20 @@ const path = require("path");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "about.html"));
-});
+// setup static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(8000, () => console.log(`Server running on port 8000`));
 
-/*Learned that if I change the scripts in my package.json and use:  "dev": "node --watch server.js" and run command "npm run dev" my server will auto-refresh without Nodemon npm package */
+/* Express Static Middleware: Efficiently serve multiple static files (HTML, CSS, JavaScript, images, etc.) without needing to create individual routes for each file.
 
-// res.sendFile() method is used to send the contents of a file as the HTTP response to a client's request.  It's particularly useful for serving static files like HTML pages, images, CSS stylesheets, or JavaScript files.
+How it works?
 
-// While res.sendFile() is great for sending individual files, it can become cumbersome when you have many static pages to serve, as you'd need to create a separate route for each one. A better way is using Express Static Middleware.
+1. Configuration: Use `app.use(express.static('public'))` to tell Express that your static files are located in the `public` directory.  
+2. Automatic Serving:  Express automatically handles requests for files within the `public` directory. For example:
+   - A request to `/` will serve `public/index.html`.
+   - A request to `/about` will serve `public/about.html`.
+   - A request to `/style.css` will serve `public/style.css`.
+   
+    When requesting a file, be sure to include its full name (e.g., `/about.html` not just `/about`). 
+    */
