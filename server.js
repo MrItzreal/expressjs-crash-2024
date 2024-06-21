@@ -24,14 +24,23 @@ let posts = [
   },
 ];
 
+// Get all posts
 app.get("/api/posts", (req, res) => {
   res.json(posts);
 });
 
+// Get single post
+
+app.get("/api/posts/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  res.json(posts.filter((post) => post.id === id));
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-/* .send() vs .json():
-- res.send(): Use this if you need flexibility and might send different types of data in your responses such as:strings, objects, arrays, or even buffers. .
+/* 
+parseInt: converts strings into integers.
+Intergers: whole numbers like: -1,0 & 1.
 
-- res.json(): Use this when you are specifically dealing with JSON data (objects or arrays) to ensure the correct content type and make your code more intention-revealing.
+req.params is an object that stores values extracted from the URL based on route parameters defined in your routes. Route parameters are segments of the URL that are dynamic and can change based on user input.
 */
