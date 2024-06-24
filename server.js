@@ -6,6 +6,10 @@ const port = process.env.PORT || 8000;
 
 const app = express();
 
+// Body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // setup static folder
 // app.use(express.static(path.join(__dirname, "public")));
 
@@ -14,8 +18,12 @@ app.use("/api/posts", posts);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-/*Since we are defining "/api/posts" in this file we do
-not need to define it in posts.js file. We can define as:
+/* Body parser middleware:
+-express.json(): This lets you submit raw JSON data. You can see it using POSTMAN.
+
+-express.urlencoded({ extended: false })): This allows you to send the form data.You can see it using POSTMAN.*/
+
+/*Since we are defining "/api/posts" in this file we do not need to define it in posts.js file. We can define as:
 
 - "/": only slash since .use() has the end point so no need to repeat.
 
