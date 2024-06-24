@@ -16,6 +16,7 @@ let posts = [
   },
 ];
 
+// GET REQUEST
 // Get all posts
 // You can chain on the .status() w/ .json() by adding a dot in between.
 router.get("/", (req, res) => {
@@ -40,6 +41,7 @@ router.get("/:id", (req, res) => {
   res.status(200).json(post);
 });
 
+// POST REQUEST
 // Create new post
 router.post("/", (req, res) => {
   const newPost = {
@@ -53,6 +55,23 @@ router.post("/", (req, res) => {
 
   posts.push(newPost);
   res.status(201).json(posts);
+});
+
+// PUT REQUEST
+// Update Post
+// "/:id" added to identify updated post.
+router.put("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const post = posts.find((post) => post.id === id);
+
+  if (!post) {
+    return res
+      .status(404)
+      .json({ msg: `A post with the id of ${id} was not found` });
+  }
+
+  post.title = req.body.title;
+  res.status(200).json(posts);
 });
 
 export default router;
