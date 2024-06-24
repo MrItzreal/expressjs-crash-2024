@@ -1,14 +1,18 @@
 import express from "express";
 import path from "path";
 import posts from "./routes/posts.js";
+import logger from "./middleware/logger.js";
 // You can add a fallback like || 8000 just in case.
 const port = process.env.PORT || 8000;
 
 const app = express();
 
-// Body parser middleware
+// Body parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Logger Middleware
+app.use(logger);
 
 // setup static folder
 // app.use(express.static(path.join(__dirname, "public")));
