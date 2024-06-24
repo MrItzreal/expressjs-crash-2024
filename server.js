@@ -30,10 +30,9 @@ app.get("/api/posts", (req, res) => {
   const limit = parseInt(req.query.limit);
 
   if (!isNaN(limit) && limit > 0) {
-    res.status(200).json(posts.slice(0, limit));
-  } else {
-    res.status(200).json(posts);
+    return res.status(200).json(posts.slice(0, limit));
   }
+  res.status(200).json(posts);
 });
 
 // Get single post
@@ -42,10 +41,11 @@ app.get("/api/posts/:id", (req, res) => {
   const post = posts.find((post) => post.id === id);
 
   if (!post) {
-    res.status(404).json({ msg: `A post with the id of ${id} was not found` });
-  } else {
-    res.status(200).json(post);
+    return res
+      .status(404)
+      .json({ msg: `A post with the id of ${id} was not found` });
   }
+  res.status(200).json(post);
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
