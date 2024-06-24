@@ -1,6 +1,6 @@
-const express = require("express");
-const path = require("path");
-const posts = require("./routes/posts");
+import express from "express";
+import path from "path";
+import posts from "./routes/posts.js";
 // You can add a fallback like || 8000 just in case.
 const port = process.env.PORT || 8000;
 
