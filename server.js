@@ -1,11 +1,16 @@
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import notFound from "./middleware/notFound.js";
 // You can add a fallback like || 8000 just in case.
 const port = process.env.PORT || 8000;
+
+// Get the directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -16,8 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 // Logger Middleware
 app.use(logger);
 
-// setup static folder
-// app.use(express.static(path.join(__dirname, "public")));
+// setup static folder that lead to both our HTML files.
+app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/api/posts", posts);
@@ -26,17 +31,13 @@ app.use("/api/posts", posts);
 // Placed below the routes to avoid conflicts.
 app.use(notFound);
 app.use(errorHandler);
- 
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
-/* Body parser middleware:
--express.json(): This lets you submit raw JSON data. You can see it using POSTMAN.
+/*These paths are incompatible with ES Modules and will cause errors if used outside of common modules. However, you can make your own using variables and methods as shown above:
+__filename: gives both path & file name
+__dirname: only gives the path
+ console.log(__filename, __dirname);
 
--express.urlencoded({ extended: false })): This allows you to send the form data.You can see it using POSTMAN.*/
-
-/*Since we are defining "/api/posts" in this file we do not need to define it in posts.js file. We can define as:
-
-- "/": only slash since .use() has the end point so no need to repeat.
-
-- "/:id": just id portion since the path is already defined in .use().
+ path.join(): Joins arguments together which results in a path.
 */
