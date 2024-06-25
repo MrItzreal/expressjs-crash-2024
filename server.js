@@ -3,6 +3,7 @@ import path from "path";
 import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
+import notFound from "./middleware/notFound.js";
 // You can add a fallback like || 8000 just in case.
 const port = process.env.PORT || 8000;
 
@@ -21,10 +22,11 @@ app.use(logger);
 // Routes
 app.use("/api/posts", posts);
 
-// Error Handler
-// Place it below the routes to avoid conflicts.
+// Error Handlers
+// Placed below the routes to avoid conflicts.
+app.use(notFound);
 app.use(errorHandler);
-
+ 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 /* Body parser middleware:
